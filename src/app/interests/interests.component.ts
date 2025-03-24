@@ -11,7 +11,6 @@ export class InterestsComponent {
 	interests: Interests[] = [];
 	 constructor(public interestsService: InterestsService)
 	 {
-    console.log(this.interestsService);
     this.interestsService.getInterests().snapshotChanges().pipe(
 	    map(changes =>
 		changes.map(c =>
