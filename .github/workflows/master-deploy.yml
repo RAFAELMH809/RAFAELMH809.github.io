@@ -51,7 +51,7 @@ jobs:
               docker cp dist/mycv/browser/.  http_base:/usr/local/apache2/htdocs
       - name: show conteiner
         run: |
-               docker exec serving_base ls -la /usr/local/apache2/htdocs
+               docker exec http_base ls -la /usr/local/apache2/htdocs
               
               
       - name: docker custom image
