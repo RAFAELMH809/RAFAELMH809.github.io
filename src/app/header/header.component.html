@@ -1,16 +1,20 @@
+<table class="header-layout">
 <tr>
-	<td>
-		{{header.name}} <br>
-		{{header.goalLife}}
+	<td class="header-name">
+	    <h1>{{header.name}}</h1>
+		<p>{{header.goalLife}}</p>
 	</td>
-	<td>
-		<img src="{{header.photoUrl}}" width='200' height='200'>
+	<td class="header-photo">
+		<img src="{{header.photoUrl}}" alt="Foto" class="profile-img">
 	</td>
-	<td>
-		{{header.email}} <br>
-		{{header.phoneNumber}}<br>
-		{{header.location}}<br>
-		{{header.socialNetwork}}
+	<td class="header-contact">
+		<div class="contact-info">
+		<p>✉️ {{header.email}} </p>
+		<p>📞{{header.phoneNumber}}</p>
+		<p>📍{{header.location}}</p>
+		<p>🌐{{header.socialNetwork}}</p>
+	</div>
 	</td>
 </tr>
-
+</table>
+  
