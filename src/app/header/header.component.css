@@ -1,0 +1,47 @@
+.header-layout {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 10px;
+  }
+  
+  .header-layout td {
+    vertical-align: middle;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: silver;  /*color del fondo de header*/
+    border: 1px solid transparent; 
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.08); 
+  }
+  
+  .header-name h1 {
+    font-size: 26px;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .profile-img {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+    border: 2px solid #2196f3;
+  }
+  
+  .header-contact {
+    text-align: right;
+  }
+  
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    gap: 4px;
+    font-size: 14px;
+  }
+  
+  
+  

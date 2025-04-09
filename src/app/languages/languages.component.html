@@ -1,10 +1,16 @@
-<table>
-<p><b>Languages!</b></p>
-<ul>
-  <li *ngFor="let language of languages">
-	  <b>{{ language.idiomas }}</b> <br>
-	     {{ language.nivel }}<br>
-  </li>
-</ul>
-</table>
+
+  <p><b>Languages🈳</b></p>
+  <ul>
+    <li *ngFor="let language of languages" class="language-container" >
+      <b>{{ language.idiomas }}</b> <br>
+      <div class="language-bar">
+        <div class="progress-bar">
+          <!-- Aquí el width será el valor de "nivel" -->
+          <div class="progress-fill" [style.width.%]="language.nivel"></div>
+        </div>
+      </div>
+      <div class="percentage">{{ language.nivel }}%</div>
+    </li>
+  </ul>
+  
 
