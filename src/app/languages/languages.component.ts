@@ -22,7 +22,7 @@ export class LanguagesComponent {
     ).subscribe(data => {
 	    this.languages = data;
 	    console.log(this.languages);
-		console.log("hola")
+		
     });
 
   }
