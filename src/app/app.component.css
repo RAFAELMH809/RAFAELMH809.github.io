@@ -3,7 +3,7 @@
     table-layout: fixed;
 	width: 100%;
 	border-collapse: separate;
-	border-spacing: 12px; /* Espacio entre celdas */
+	border-spacing: 12px; /* Espacio entre celdas: */
 	margin: 20px auto;
   }
   
