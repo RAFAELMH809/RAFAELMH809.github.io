@@ -35,7 +35,7 @@ jobs:
       - name: list dir 
         run: ls -la dist/mycv/browser
       - name: rm docs archives 
-      - run: rm docs/*.*
+        run: rm docs/*.*
       
       - name: copy index.html, css, js
         run: cp dist/mycv/browser/*.* docs
