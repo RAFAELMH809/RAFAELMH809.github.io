@@ -16,7 +16,7 @@
 	box-shadow: 0 2px 4px black (0,0,0,0.05); 
 }
   .main-wrapper {
-	background-color: #943126;   /*color del fono*/
+	background-color: #dcd2c0;   /*color del fono*/
 	min-height: 100vh;
 	padding: 40px;
 	display: flex;
@@ -32,3 +32,5 @@
   h1, h2, h3, h4, p, li, td, th, .percentage {
 	color: black;/* Cambia el color de los encabezados y párrafos */
   }
+
+  

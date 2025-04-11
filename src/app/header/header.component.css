@@ -9,15 +9,16 @@
     vertical-align: middle;
     padding: 10px;
     border-radius: 8px;
-    background-color: silver;  /*color del fondo de header*/
+    background-color: #2e3a59;  /*color del fondo de header*/
     border: 1px solid transparent; 
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.08); 
+    color: white;
   }
   
   .header-name h1 {
     font-size: 26px;
     margin-bottom: 5px;
-    color: #333;
+    color: w;
   }
   
   .profile-img {
