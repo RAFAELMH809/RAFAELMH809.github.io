@@ -60,4 +60,12 @@
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.12);
     margin-bottom: 8px;
   }
-  
+  .cv-cell {
+    position: relative;
+    background-color: #d3d3d3; /* el color de fondo que ya usas */
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border-left: 6px solid black; /* línea azul lateral */
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1); /* sombra opcional */
+  }
