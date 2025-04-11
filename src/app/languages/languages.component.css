@@ -45,4 +45,19 @@
     text-align: center;
     margin-top: 5px;
   }
- 
+  .section-title {
+    background-color: #2e3a59;
+    color: white;
+    padding: 2px 18px; /* Menos altura, ancho moderado */
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.12);
+    margin-bottom: 8px;
+  }
+  
