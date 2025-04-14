@@ -21,28 +21,42 @@ jobs:
       - name: install dependencies 
         run: npm ci
 
-      - name: Build Angular app
-        run: npm run build -- --configuration production --base-href "/RAFAELMH809.github.io/"
-            
-      - name: Verificar archivos generados
+      - name: build setup
+        run: npm run build
+
+      - name: list dir
         run: ls -la dist/mycv/browser
 
-      - name: Limpiar carpeta docs/
-        run: rm -rf docs/*
+      - name: download, run httpd image
+        run:  |
+            docker run -d --name serving_base httpd
 
-      - name: Copiar archivos del build a docs/
-        run: cp -r dist/mycv/browser/* docs/
+      - name: docker ps
+        run:  |
+            docker ps
 
-      - name: Verificar contenido de docs/
-        run: ls -la docs/
+      - name: cp angular build to container
+        run:  |
+            docker cp dist/mycv/browser/. serving_base:/usr/local/apache2/htdocs
 
-      - name: Commit y push a deploy-release
-        env: 
-          CI_COMMIT_MESSAGE: save spark results
-          CI_COMMIT_AUTHOR: RAFAELMH809
-        run: |
-             git config --global user.name "RAFAELMH809"
-             git config --global user.email "zS23004693@estudiantes.uv.mx"
-             git add .
-             git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
-             git push origin deploy-release
+      - name: list container
+        run:  |
+            docker exec serving_base ls -la /usr/local/apache2/htdocs
+
+      - name: build custom docker image
+        run: docker commit --change "ENV MODEL_NAME  ${{ secrets.MODEL_NAME}}"
+             serving_base ${{ secrets.DOCKER_USER}}/${{secrets.MODEL_NAME}}:${{github.sha}}
+
+      - name: list images
+        run:  |
+            docker images
+
+      - name: build login
+        env:
+          DOCKER_USER: ${{secrets.DOCKER_USER}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+        run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+
+      - name: docker push
+        run: docker push ${{ secrets.DOCKER_USER}}/${{secrets.MODEL_NAME}}:${{github.sha}}
+
