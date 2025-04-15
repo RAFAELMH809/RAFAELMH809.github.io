@@ -22,7 +22,7 @@ export class InterestsComponent {
     ).subscribe(data => {
 	    this.interests = data; 
 	    console.log(this.interests);
-		console.log('hello');
+		console.log('Hello');
     });
 
   }
