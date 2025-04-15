@@ -1,12 +1,14 @@
-name: CI/CD release deploy 
+name: CI/CD deploy release 
 on: 
-  #push:
-    #branches: [ "master"]
-  pull_request:
-    branches: [ "release"] 
+  push:
+    branches: [ "deploy-release"]
+  #pull_request:
+    #branches: [ "release"] 
 jobs:
-  ci_cd_deploy_master:
+  ci_cd_deploy_release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - run: ls -la
@@ -19,44 +21,28 @@ jobs:
           node-version: 20.x
 
       - name: install dependencies 
-        run: npm ci
+        run: npm install
+        
+      - name: Build Angular app
+        run: npm run build -- --configuration production --base-href "/RAFAELMH809.github.io/"
 
-      - name: build setup
-        run: npm run build
-
-      - name: list dir
+      - name: Verificar archivos generados
         run: ls -la dist/mycv/browser
 
-      - name: download, run httpd image
-        run:  |
-            docker run -d --name serving_base httpd
+      - name: Copiar archivos del build a docs/ (sin borrar nada)
+        run: cp -ru dist/mycv/browser/* docs/
 
-      - name: docker ps
-        run:  |
-            docker ps
+      - name: Verificar contenido actualizado en docs/
+        run: ls -la docs/
 
-      - name: cp angular build to container
-        run:  |
-            docker cp dist/mycv/browser/. serving_base:/usr/local/apache2/htdocs
-
-      - name: list container
-        run:  |
-            docker exec serving_base ls -la /usr/local/apache2/htdocs
-
-      - name: build custom docker image
-        run: docker commit --change "ENV MODEL_NAME  ${{ secrets.MODEL_NAME}}"
-             serving_base ${{ secrets.DOCKER_USER}}/${{secrets.MODEL_NAME}}:${{github.sha}}
-
-      - name: list images
-        run:  |
-            docker images
-
-      - name: build login
+      - name: Commit y push a deploy-release
         env:
-          DOCKER_USER: ${{secrets.DOCKER_USER}}
-          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-        run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-
-      - name: docker push
-        run: docker push ${{ secrets.DOCKER_USER}}/${{secrets.MODEL_NAME}}:${{github.sha}}
+          CI_COMMIT_MESSAGE: actualizando docs sin borrar nada
+          CI_COMMIT_AUTHOR: RAFAELMH809
+        run: |
+          git config --global user.name "RAFAELMH809"
+          git config --global user.email "zS23004693@estudiantes.uv.mx"
+          git add docs/
+          git commit -m "${{ env.CI_COMMIT_MESSAGE }}" || echo "No hay cambios que commitear"
+          git push origin deploy-release
 
