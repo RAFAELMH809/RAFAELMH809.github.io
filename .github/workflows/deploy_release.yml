@@ -1,9 +1,8 @@
-name: CI/CD deploy release 
-on: 
+name: CI/CD deploy release
+on:
   push:
-    branches: [ "deploy-release"]
-  #pull_request:
-    #branches: [ "release"] 
+    branches: [ "deploy-release" ]
+
 jobs:
   ci_cd_deploy_release:
     runs-on: ubuntu-latest
@@ -11,38 +10,34 @@ jobs:
       contents: write
 
     steps:
-      - run: ls -la
       - uses: actions/checkout@v2
-      - run: ls -la
-      - run: echo 'hello world'
-      - name: Use Node.js 20.x
+
+      - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20.x
+          node-version: 20
 
-      - name: install dependencies 
-        run: npm install
-        
-      - name: Build Angular app
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Angular app for GitHub Pages
         run: npm run build -- --configuration production --base-href "/RAFAELMH809.github.io/"
 
-      - name: Verificar archivos generados
-        run: ls -la dist/mycv/browser
+      - name: Clean old JS/CSS files (no borrar docs enteros)
+        run: rm -f docs/*.js docs/*.css docs/*.txt
 
-      - name: Copiar archivos del build a docs/ (sin borrar nada)
+      - name: Copy build to docs/
         run: cp -ru dist/mycv/browser/* docs/
 
-      - name: Verificar contenido actualizado en docs/
-        run: ls -la docs/
-
-      - name: Commit y push a deploy-release
+      - name: Git commit and push docs/
         env:
-          CI_COMMIT_MESSAGE: actualizando docs sin borrar nada
+          CI_COMMIT_MESSAGE: "deploy release to docs/"
           CI_COMMIT_AUTHOR: RAFAELMH809
         run: |
-          git config --global user.name "RAFAELMH809"
+          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
           git config --global user.email "zS23004693@estudiantes.uv.mx"
           git add docs/
-          git commit -m "${{ env.CI_COMMIT_MESSAGE }}" || echo "No hay cambios que commitear"
+          git commit -m "${{ env.CI_COMMIT_MESSAGE }}" || echo "No changes to commit"
           git push origin deploy-release
+
 
