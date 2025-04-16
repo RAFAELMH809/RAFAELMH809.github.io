@@ -1,62 +1,40 @@
-name: CI/CD release deploy 
-on: 
-  #push:
-    #branches: [ "master"]
-  pull_request:
-    branches: [ "release"] 
+name: release_deploy
+on:
+  push:
+    branches: [ "release" ]
+
 jobs:
-  ci_cd_deploy_master:
+  build-and-push-docker:
     runs-on: ubuntu-latest
 
     steps:
-      - run: ls -la
       - uses: actions/checkout@v2
-      - run: ls -la
-      - run: echo 'hello world'
-      - name: Use Node.js 20.x
+
+      - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20.x
+          node-version: 20
 
-      - name: install dependencies 
+      - name: Install dependencies
         run: npm ci
 
-      - name: build setup
-        run: npm run build
+      - name: Build Angular app for Docker/Render
+        run: npm run build -- --configuration production --base-href "/"
 
-      - name: list dir
-        run: ls -la dist/mycv/browser
+      - name: Start Apache container
+        run: docker run -d --name mycv_container httpd
 
-      - name: download, run httpd image
-        run:  |
-            docker run -d --name serving_base httpd
+      - name: Copy Angular build into container
+        run: docker cp dist/mycv/browser/. mycv_container:/usr/local/apache2/htdocs/
 
-      - name: docker ps
-        run:  |
-            docker ps
+      - name: Commit container as image
+        run: |
+          docker commit --change "ENV MODEL_NAME ${{ secrets.MODEL_NAME }}" \
+            mycv_container ${{ secrets.DOCKER_USER }}/${{ secrets.MODEL_NAME }}:${{ github.sha }}
 
-      - name: cp angular build to container
-        run:  |
-            docker cp docs/.  serving_base:/usr/local/apache2/htdocs
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
 
-      - name: list container
-        run:  |
-            docker exec serving_base ls -la /usr/local/apache2/htdocs
-
-      - name: build custom docker image
-        run: docker commit --change "ENV MODEL_NAME  ${{ secrets.MODEL_NAME}}"
-             serving_base ${{ secrets.DOCKER_USER}}/${{secrets.MODEL_NAME}}:${{github.sha}}
-
-      - name: list images
-        run:  |
-            docker images
-
-      - name: build login
-        env:
-          DOCKER_USER: ${{secrets.DOCKER_USER}}
-          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-        run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-
-      - name: docker push
-        run: docker push ${{ secrets.DOCKER_USER}}/${{secrets.MODEL_NAME}}:${{github.sha}}
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKER_USER }}/${{ secrets.MODEL_NAME }}:${{ github.sha }}
 
