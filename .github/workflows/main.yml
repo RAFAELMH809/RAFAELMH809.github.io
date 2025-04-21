@@ -1,4 +1,4 @@
-name: CI/CD release to Docker
+name: CI/CD release 
 
 on:
   push:
