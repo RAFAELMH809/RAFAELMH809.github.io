@@ -36,9 +36,6 @@ jobs:
       - name: List browser directory
         run: ls -la dist/mycv/browser
 
-      - name: Copy new build to docs (without deleting existing files)
-        run: |
-             rsync -av --ignore-existing dist/mycv/browser/ docs/
       - name: copy docs
         run: cp -r dist/mycv/browser/* docs/
 
