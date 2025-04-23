@@ -24,6 +24,7 @@ export class EducationComponent {
     ).subscribe(data => {
 	    this.education = data;
 	    console.log(this.education);
+		console.log('hello');
     });
 	}
 
