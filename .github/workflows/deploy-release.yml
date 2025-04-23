@@ -24,9 +24,19 @@ jobs:
       - name: Build Angular app
         run: npm run build -- --configuration production --base-href "/RAFAELMH809.github.io/"
 
-      - name: Clean old docs and copy new build
+      - name: List directory before build
+        run: ls -la
+
+      - name: List directory after build
+        run: ls -la dist
+
+      - name: List browser directory
+        run: ls -la dist/mycv/browser
+
+      - name: Copy new build to docs (without deleting existing files)
         run: |
-         cp -r dist/mycv/browser/* docs/
+          cp -r dist/mycv/browser/* docs/
+      
 
 
       - name: Commit and push updated docs
