@@ -25,7 +25,7 @@ jobs:
         run: npm run build -- --configuration production --base-href=/RAFAELMH809.github.io/ 
       - name: rm docs
         run: |
-             -rf docs
+            rm -rf docs
              mkdir docs
       - name: List directory before build
         run: ls -la
