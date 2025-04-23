@@ -23,7 +23,10 @@ jobs:
 
       - name: Build Angular app
         run: npm run build -- --configuration production --base-href=/RAFAELMH809.github.io/ 
-
+      - name: rm docs
+        run: |
+             -rf docs
+             mkdir docs
       - name: List directory before build
         run: ls -la
 
@@ -36,7 +39,8 @@ jobs:
       - name: Copy new build to docs (without deleting existing files)
         run: |
              rsync -av --ignore-existing dist/mycv/browser/ docs/
-      
+      - name: copy docs
+        run: cp -r dist/mycv/browser/* docs/
 
 
       - name: Commit and push updated docs
