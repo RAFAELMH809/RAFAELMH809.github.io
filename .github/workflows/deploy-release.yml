@@ -26,8 +26,7 @@ jobs:
 
       - name: Clean old docs and copy new build
         run: |
-         rm -rf docs/*.html docs/*.css docs/*.js
-         cp -r dist/mycv/browser/* docs
+         cp -r dist/mycv/browser/* docs/
 
 
       - name: Commit and push updated docs
