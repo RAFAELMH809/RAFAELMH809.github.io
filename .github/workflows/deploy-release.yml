@@ -22,7 +22,7 @@ jobs:
         run: npm ci
 
       - name: Build Angular app
-        run: npm run build -- --configuration production --base-href=/RAFAELMH809.github.io/ 
+        run: npm run build 
       - name: rm docs
         run: |
             rm -rf docs
