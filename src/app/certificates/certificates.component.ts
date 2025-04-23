@@ -24,6 +24,7 @@ export class CertificatesComponent {
     ).subscribe(data => {
 	    this.certificates = data;
 	    console.log(this.certificates);
+		console.log('hello');
     });
 	}
 
