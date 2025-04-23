@@ -22,7 +22,7 @@ jobs:
         run: npm ci
 
       - name: Build Angular app
-        run: npm run build -- --configuration production --base-href "/RAFAELMH809.github.io/"
+        run: npm run build -- --configuration production --base-href=/RAFAELMH809.github.io/ 
 
       - name: List directory before build
         run: ls -la
@@ -35,7 +35,7 @@ jobs:
 
       - name: Copy new build to docs (without deleting existing files)
         run: |
-          rsync -av --ignore-existing dist/mycv/browser/ docs/
+             rsync -av --ignore-existing dist/mycv/browser/ docs/
       
 
 
